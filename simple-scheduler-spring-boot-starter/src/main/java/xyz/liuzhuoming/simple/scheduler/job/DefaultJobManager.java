@@ -47,7 +47,7 @@ public class DefaultJobManager implements JobManager {
     }
 
     @Override
-    public boolean isExist(String relatedId) {
+    public boolean isExist(String classname, String relatedId) {
         return idWithJobName.containsKey(relatedId);
     }
 
@@ -66,7 +66,7 @@ public class DefaultJobManager implements JobManager {
     }
 
     @Override
-    public String getJobNameByRelatedId(String relatedId) {
+    public String getJobNameByRelatedId(String className, String relatedId) {
         return idWithJobName.get(relatedId);
     }
 

@@ -26,10 +26,11 @@ public interface JobManager {
     /**
      * 使用本id的任务是否已存在
      *
+     * @param className 任务类名称
      * @param relatedId 外部数据id
      * @return true存在 false不存在
      */
-    boolean isExist(String relatedId);
+    boolean isExist(String className, String relatedId);
 
     /**
      * 根据任务名称删除任务数据
@@ -41,10 +42,11 @@ public interface JobManager {
     /**
      * 根据id获取任务名称
      *
+     * @param className 任务类名称
      * @param relatedId 外部数据id
      * @return 任务名称
      */
-    String getJobNameByRelatedId(String relatedId);
+    String getJobNameByRelatedId(String className, String relatedId);
 
     /**
      * 根据任务名称获取任务参数

@@ -77,8 +77,8 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
         List<JobData> jobDataList = jobManager.getUnExecutedJobs();
         jobDataList.forEach(jobData -> {
             String className = jobData.getClassName();
+            String jobName = jobData.getJobName();
 
-            String jobName = "job:" + generateKey();
             String jobGroupName = "group:" + className;
             String triggerName = "trigger:" + generateKey();
             String triggerGroupName = "triggerGroup:" + className;
@@ -87,7 +87,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
                 Class clazz = Class.forName(className);
 
                 if (jobData.getExecuteTime().before(new Date())) {
-                    this.deleteByJobName(clazz, jobData.getJobName());
+                    this.deleteByJobName(clazz, jobName);
                     throw new SchedulerException("Execute Time is before current time");
                 }
 
@@ -100,7 +100,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
                     .startAt(jobData.getExecuteTime())
                     .build();
                 getScheduler().scheduleJob(jobDetail, trigger);
-                log.info("Restore jobDetail successful, {}#{}#{}", jobName, jobGroupName, jobData);
+                log.info("Restore jobDetail successful, {}#{}", jobName, jobGroupName);
             } catch (SchedulerException | ClassNotFoundException e) {
                 log.error("Restore jobDetail failed, {}", e.getMessage());
             }
@@ -121,8 +121,9 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
             String triggerName = "trigger:" + generateKey();
             String triggerGroupName = "triggerGroup:" + clazz.getName();
 
-            if (jobManager.isExist(relatedId)) {
-                throw new SchedulerException("Related id {" + relatedId + "} is existed");
+            if (jobManager.isExist(clazz.getName(), relatedId)) {
+                throw new SchedulerException(
+                    "Job {" + clazz.getName() + "#" + relatedId + "} is existed");
             }
 
             JobData jobData = new JobData();
@@ -151,7 +152,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
 
     @Override
     public <JOB extends Job> void pause(Class<JOB> clazz, String relatedId) {
-        String jobName = jobManager.getJobNameByRelatedId(relatedId);
+        String jobName = jobManager.getJobNameByRelatedId(clazz.getName(), relatedId);
         JobKey jobKey = new JobKey(jobName, "group:" + clazz.getName());
         try {
             getScheduler().pauseJob(jobKey);
@@ -163,7 +164,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
 
     @Override
     public <JOB extends Job> void resume(Class<JOB> clazz, String relatedId) {
-        String jobName = jobManager.getJobNameByRelatedId(relatedId);
+        String jobName = jobManager.getJobNameByRelatedId(clazz.getName(), relatedId);
         JobKey jobKey = new JobKey(jobName, "group:" + clazz.getName());
         try {
             getScheduler().resumeJob(jobKey);
@@ -175,7 +176,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
 
     @Override
     public <JOB extends Job> void deleteByRelatedId(Class<JOB> clazz, String relatedId) {
-        String jobName = jobManager.getJobNameByRelatedId(relatedId);
+        String jobName = jobManager.getJobNameByRelatedId(clazz.getName(), relatedId);
         this.deleteByJobName(clazz, jobName);
     }
 

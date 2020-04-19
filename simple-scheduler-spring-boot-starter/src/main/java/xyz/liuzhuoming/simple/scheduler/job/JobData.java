@@ -13,7 +13,9 @@ import lombok.Data;
 public class JobData {
 
     /**
-     * 绑定外部数据id（务必保持全局唯一）
+     * 绑定外部数据id
+     * <p>
+     * 自行实现{@link JobManager}的话可以保证同一个{@link BaseJob}子类实例下唯一,默认实现{@link DefaultJobManager}务必保证全局唯一
      */
     private String relatedId;
     /**

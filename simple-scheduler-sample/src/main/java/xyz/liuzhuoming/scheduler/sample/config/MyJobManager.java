@@ -53,9 +53,10 @@ public class MyJobManager implements JobManager {
     }
 
     @Override
-    public boolean isExist(String relatedId) {
+    public boolean isExist(String className, String relatedId) {
         LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(MyJobDataPo::getRelatedId, relatedId);
+        queryWrapper.eq(MyJobDataPo::getClassName, className);
         queryWrapper.eq(MyJobDataPo::getIsDeleted, 0);
         return jobDataMapper.selectCount(queryWrapper) > 0;
     }
@@ -70,9 +71,10 @@ public class MyJobManager implements JobManager {
     }
 
     @Override
-    public String getJobNameByRelatedId(String relatedId) {
+    public String getJobNameByRelatedId(String className, String relatedId) {
         LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(MyJobDataPo::getRelatedId, relatedId);
+        queryWrapper.eq(MyJobDataPo::getClassName, className);
         return jobDataMapper.selectOne(queryWrapper).getJobName();
     }
 

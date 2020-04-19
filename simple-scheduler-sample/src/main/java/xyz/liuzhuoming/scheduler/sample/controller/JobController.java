@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.liuzhuoming.scheduler.sample.job.Print2Job;
 import xyz.liuzhuoming.scheduler.sample.job.PrintJob;
 import xyz.liuzhuoming.simple.scheduler.scheduler.SchedulerTemplate;
 
@@ -35,8 +36,13 @@ public class JobController {
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime));
     }
 
-    @DeleteMapping("{relatedId}")
-    public void delete(@PathVariable String relatedId) {
-        quartzTemplate.deleteByRelatedId(PrintJob.class, relatedId);
+    @PostMapping("/2")
+    public void add2(String relatedId, String executeTime, String username)
+        throws ParseException {
+        Map<String, Object> params = new HashMap<String, Object>() {{
+            put("username", username);
+        }};
+        quartzTemplate.add(Print2Job.class, relatedId, params,
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime));
     }
 }
