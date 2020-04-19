@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  xyz.liuzhuoming.simple.scheduler.conf.SchedulerAutoConfiguration,\
+  xyz.liuzhuoming.simple.scheduler.conf.BeanAutoConfiguration
