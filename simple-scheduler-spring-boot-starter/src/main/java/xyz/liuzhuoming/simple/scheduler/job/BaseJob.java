@@ -37,6 +37,6 @@ public class BaseJob {
     public <JOB extends Job> void afterExecute(Class<JOB> clazz,
         JobExecutionContext jobExecutionContext) {
         String jobName = jobExecutionContext.getJobDetail().getKey().getName();
-        schedulerTemplate.deleteByJobName(clazz, jobName);
+        schedulerTemplate.deleteJobByJobName(clazz, jobName);
     }
 }

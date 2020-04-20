@@ -6,12 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.liuzhuoming.scheduler.sample.job.Print2Job;
 import xyz.liuzhuoming.scheduler.sample.job.PrintJob;
 import xyz.liuzhuoming.simple.scheduler.scheduler.SchedulerTemplate;
 
@@ -33,10 +30,9 @@ public class JobController {
         for (int i = 0; i < 1000; i++) {
             Map<String, Object> params = new HashMap<>();
             params.put("username", username + i);
-            quartzTemplate.add(PrintJob.class, relatedId + "--" + i, params,
+            quartzTemplate.addJob(PrintJob.class, relatedId + "--" + i, params,
                 new Date(
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime).getTime()
-                        + 1000));
+                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime).getTime()));
         }
     }
 }

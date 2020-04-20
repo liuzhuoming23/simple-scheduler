@@ -42,7 +42,7 @@ public interface SchedulerTemplate {
      * @param params      参数集合
      * @param executeTime 执行时间
      */
-    <JOB extends Job> void add(Class<JOB> clazz, String relatedId, Map<String, Object> params,
+    <JOB extends Job> void addJob(Class<JOB> clazz, String relatedId, Map<String, Object> params,
         Date executeTime);
 
     /**
@@ -51,7 +51,7 @@ public interface SchedulerTemplate {
      * @param clazz     任务class
      * @param relatedId 外部数据id
      */
-    <JOB extends Job> void deleteByRelatedId(Class<JOB> clazz, String relatedId);
+    <JOB extends Job> void deleteJobByRelatedId(Class<JOB> clazz, String relatedId);
 
     /**
      * 删除任务
@@ -59,5 +59,5 @@ public interface SchedulerTemplate {
      * @param clazz   任务class
      * @param jobName 任务名称
      */
-    <JOB extends Job> void deleteByJobName(Class<JOB> clazz, String jobName);
+    <JOB extends Job> void deleteJobByJobName(Class<JOB> clazz, String jobName);
 }

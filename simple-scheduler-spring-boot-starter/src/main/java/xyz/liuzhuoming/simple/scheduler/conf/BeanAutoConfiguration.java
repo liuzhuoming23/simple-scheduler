@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import xyz.liuzhuoming.simple.scheduler.job.DefaultJobManager;
 import xyz.liuzhuoming.simple.scheduler.job.JobManager;
-import xyz.liuzhuoming.simple.scheduler.scheduler.DefaultKeyGenerator;
-import xyz.liuzhuoming.simple.scheduler.scheduler.KeyGenerator;
+import xyz.liuzhuoming.simple.scheduler.key.DefaultKeyGenerator;
+import xyz.liuzhuoming.simple.scheduler.key.KeyGenerator;
 import xyz.liuzhuoming.simple.scheduler.util.SpringUtil;
 
 /**

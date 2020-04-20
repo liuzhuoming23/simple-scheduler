@@ -1,4 +1,4 @@
-package xyz.liuzhuoming.simple.scheduler.scheduler;
+package xyz.liuzhuoming.simple.scheduler.key;
 
 /**
  * 默认job key生成器

@@ -18,6 +18,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.stereotype.Component;
 import xyz.liuzhuoming.simple.scheduler.job.JobData;
 import xyz.liuzhuoming.simple.scheduler.job.JobManager;
+import xyz.liuzhuoming.simple.scheduler.key.KeyGenerator;
 import xyz.liuzhuoming.simple.scheduler.prop.SchedulerProperties;
 
 /**
@@ -77,7 +78,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
                 Class clazz = Class.forName(className);
 
                 if (jobData.getExecuteTime().before(new Date())) {
-                    this.deleteByJobName(clazz, jobName);
+                    this.deleteJobByJobName(clazz, jobName);
                     throw new SchedulerException("Execute Time is before current time");
                 }
 
@@ -99,7 +100,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
     }
 
     @Override
-    public <JOB extends Job> void add(Class<JOB> clazz, String relatedId,
+    public <JOB extends Job> void addJob(Class<JOB> clazz, String relatedId,
         Map<String, Object> params,
         Date executeTime) {
         try {
@@ -141,13 +142,13 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
     }
 
     @Override
-    public <JOB extends Job> void deleteByRelatedId(Class<JOB> clazz, String relatedId) {
+    public <JOB extends Job> void deleteJobByRelatedId(Class<JOB> clazz, String relatedId) {
         String jobName = jobManager.getJobNameByRelatedId(clazz.getName(), relatedId);
-        this.deleteByJobName(clazz, jobName);
+        this.deleteJobByJobName(clazz, jobName);
     }
 
     @Override
-    public <JOB extends Job> void deleteByJobName(Class<JOB> clazz, String jobName) {
+    public <JOB extends Job> void deleteJobByJobName(Class<JOB> clazz, String jobName) {
         JobKey jobKey = new JobKey(jobName, "group:" + clazz.getName());
         try {
             getScheduler().deleteJob(jobKey);

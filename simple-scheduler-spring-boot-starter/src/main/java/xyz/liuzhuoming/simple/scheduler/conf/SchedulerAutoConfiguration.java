@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import xyz.liuzhuoming.simple.scheduler.job.JobManager;
 import xyz.liuzhuoming.simple.scheduler.prop.SchedulerProperties;
-import xyz.liuzhuoming.simple.scheduler.scheduler.KeyGenerator;
+import xyz.liuzhuoming.simple.scheduler.key.KeyGenerator;
 import xyz.liuzhuoming.simple.scheduler.scheduler.SchedulerTemplate;
 import xyz.liuzhuoming.simple.scheduler.scheduler.SchedulerTemplateImpl;
 

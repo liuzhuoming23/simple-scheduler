@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import xyz.liuzhuoming.scheduler.sample.mapper.JobDataMapper;
-import xyz.liuzhuoming.scheduler.sample.po.MyJobDataPo;
+import xyz.liuzhuoming.scheduler.sample.po.JobDataPo;
 import xyz.liuzhuoming.simple.scheduler.job.JobData;
 import xyz.liuzhuoming.simple.scheduler.job.JobManager;
 
@@ -21,16 +21,16 @@ import xyz.liuzhuoming.simple.scheduler.job.JobManager;
  */
 @Component
 @RequiredArgsConstructor
-public class MyJobManager implements JobManager {
+public class JdbcJobManager implements JobManager {
 
     private final JobDataMapper jobDataMapper;
 
     @Override
     public List<JobData> getUnExecutedJobs() {
-        LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MyJobDataPo::getIsDeleted, 0);
-        List<MyJobDataPo> myJobDataPoList = jobDataMapper.selectList(queryWrapper);
-        return myJobDataPoList.stream().map(po -> {
+        LambdaQueryWrapper<JobDataPo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(JobDataPo::getIsDeleted, 0);
+        List<JobDataPo> jobDataPoList = jobDataMapper.selectList(queryWrapper);
+        return jobDataPoList.stream().map(po -> {
             JobData jobData = new JobData();
             jobData.setJobName(po.getJobName());
             jobData.setRelatedId(po.getRelatedId());
@@ -43,60 +43,60 @@ public class MyJobManager implements JobManager {
 
     @Override
     public void addJob(JobData jobData) {
-        MyJobDataPo myJobDataPo = new MyJobDataPo();
-        myJobDataPo.setJobName(jobData.getJobName());
-        myJobDataPo.setExecuteTime(jobData.getExecuteTime());
-        myJobDataPo.setRelatedId(jobData.getRelatedId());
-        myJobDataPo.setParamsJson(JSONObject.toJSONString(jobData.getJobParams()));
-        myJobDataPo.setClassName(jobData.getClassName());
-        jobDataMapper.insert(myJobDataPo);
+        JobDataPo jobDataPo = new JobDataPo();
+        jobDataPo.setJobName(jobData.getJobName());
+        jobDataPo.setExecuteTime(jobData.getExecuteTime());
+        jobDataPo.setRelatedId(jobData.getRelatedId());
+        jobDataPo.setParamsJson(JSONObject.toJSONString(jobData.getJobParams()));
+        jobDataPo.setClassName(jobData.getClassName());
+        jobDataMapper.insert(jobDataPo);
     }
 
     @Override
     public boolean isExist(String className, String relatedId) {
-        LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MyJobDataPo::getRelatedId, relatedId);
-        queryWrapper.eq(MyJobDataPo::getClassName, className);
-        queryWrapper.eq(MyJobDataPo::getIsDeleted, 0);
+        LambdaQueryWrapper<JobDataPo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(JobDataPo::getRelatedId, relatedId);
+        queryWrapper.eq(JobDataPo::getClassName, className);
+        queryWrapper.eq(JobDataPo::getIsDeleted, 0);
         return jobDataMapper.selectCount(queryWrapper) > 0;
     }
 
     @Override
     public void deleteJobByJobName(String jobName) {
-        LambdaUpdateWrapper<MyJobDataPo> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(MyJobDataPo::getJobName, jobName);
-        MyJobDataPo po = new MyJobDataPo();
+        LambdaUpdateWrapper<JobDataPo> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(JobDataPo::getJobName, jobName);
+        JobDataPo po = new JobDataPo();
         po.setIsDeleted(1);
         jobDataMapper.update(po, updateWrapper);
     }
 
     @Override
     public String getJobNameByRelatedId(String className, String relatedId) {
-        LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MyJobDataPo::getRelatedId, relatedId);
-        queryWrapper.eq(MyJobDataPo::getClassName, className);
+        LambdaQueryWrapper<JobDataPo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(JobDataPo::getRelatedId, relatedId);
+        queryWrapper.eq(JobDataPo::getClassName, className);
         return jobDataMapper.selectOne(queryWrapper).getJobName();
     }
 
     @Override
     public Map<String, Object> getJobParamsByJobName(String jobName) {
-        LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MyJobDataPo::getJobName, jobName);
+        LambdaQueryWrapper<JobDataPo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(JobDataPo::getJobName, jobName);
         String json = jobDataMapper.selectOne(queryWrapper).getParamsJson();
         return (Map<String, Object>) JSONObject.parseObject(json, Map.class);
     }
 
     @Override
     public Date getExecuteTime(String jobName) {
-        LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MyJobDataPo::getJobName, jobName);
+        LambdaQueryWrapper<JobDataPo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(JobDataPo::getJobName, jobName);
         return jobDataMapper.selectOne(queryWrapper).getExecuteTime();
     }
 
     @Override
     public int getJobSum() {
-        LambdaQueryWrapper<MyJobDataPo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MyJobDataPo::getIsDeleted, 0);
+        LambdaQueryWrapper<JobDataPo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(JobDataPo::getIsDeleted, 0);
         return jobDataMapper.selectCount(queryWrapper);
     }
 }

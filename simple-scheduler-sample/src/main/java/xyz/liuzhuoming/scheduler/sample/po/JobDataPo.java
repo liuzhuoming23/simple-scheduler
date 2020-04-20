@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @TableName("jobs")
 @Data
-public class MyJobDataPo {
+public class JobDataPo {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
