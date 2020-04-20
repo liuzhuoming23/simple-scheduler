@@ -30,11 +30,6 @@ public interface SchedulerTemplate {
     void start();
 
     /**
-     * 停止Scheduler
-     */
-    void shutdown();
-
-    /**
      * 系统重启之后恢复持久化任务
      */
     void restore();
@@ -49,22 +44,6 @@ public interface SchedulerTemplate {
      */
     <JOB extends Job> void add(Class<JOB> clazz, String relatedId, Map<String, Object> params,
         Date executeTime);
-
-    /**
-     * 暂停任务
-     *
-     * @param clazz     任务class
-     * @param relatedId 外部数据id
-     */
-    <JOB extends Job> void pause(Class<JOB> clazz, String relatedId);
-
-    /**
-     * 恢复任务
-     *
-     * @param clazz     任务class
-     * @param relatedId 外部数据id
-     */
-    <JOB extends Job> void resume(Class<JOB> clazz, String relatedId);
 
     /**
      * 删除任务

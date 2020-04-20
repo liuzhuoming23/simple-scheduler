@@ -2,6 +2,7 @@ package xyz.liuzhuoming.scheduler.sample.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -29,20 +30,13 @@ public class JobController {
     @PostMapping
     public void add(String relatedId, String executeTime, String username)
         throws ParseException {
-        Map<String, Object> params = new HashMap<String, Object>() {{
-            put("username", username);
-        }};
-        quartzTemplate.add(PrintJob.class, relatedId, params,
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime));
-    }
-
-    @PostMapping("/2")
-    public void add2(String relatedId, String executeTime, String username)
-        throws ParseException {
-        Map<String, Object> params = new HashMap<String, Object>() {{
-            put("username", username);
-        }};
-        quartzTemplate.add(Print2Job.class, relatedId, params,
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime));
+        for (int i = 0; i < 1000; i++) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("username", username + i);
+            quartzTemplate.add(PrintJob.class, relatedId + "--" + i, params,
+                new Date(
+                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime).getTime()
+                        + 1000));
+        }
     }
 }

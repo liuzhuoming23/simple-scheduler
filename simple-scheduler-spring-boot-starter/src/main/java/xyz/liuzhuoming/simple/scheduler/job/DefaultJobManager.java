@@ -20,17 +20,13 @@ import org.springframework.stereotype.Component;
 public class DefaultJobManager implements JobManager {
 
     /**
-     * id:jobName
+     * relatedId:jobData
      */
-    public static Map<String, String> idWithJobName = new HashMap<>();
+    public static Map<String, JobData> relatedIdWithJobData = new HashMap<>();
     /**
-     * jobName:params
+     * jobName:relatedId
      */
-    public static Map<String, Map<String, Object>> jobNameWithParams = new HashMap<>();
-    /**
-     * jobName:executeTime
-     */
-    public static Map<String, Date> jobNameWithExecuteTime = new HashMap<>();
+    public static Map<String, String> jobNameWithRelatedId = new HashMap<>();
 
     @Override
     public List<JobData> getUnExecutedJobs() {
@@ -40,48 +36,41 @@ public class DefaultJobManager implements JobManager {
 
     @Override
     public void addJob(JobData jobData) {
-        idWithJobName.put(jobData.getRelatedId(), jobData.getJobName());
-        jobNameWithParams.put(jobData.getJobName(), jobData.getJobParams());
-        jobNameWithExecuteTime.put(jobData.getJobName(), jobData.getExecuteTime());
+        relatedIdWithJobData.put(jobData.getRelatedId(), jobData);
         log.info(jobData.toString());
     }
 
     @Override
     public boolean isExist(String classname, String relatedId) {
-        return idWithJobName.containsKey(relatedId);
+        return relatedIdWithJobData.containsKey(relatedId);
     }
 
     @Override
     public void deleteJobByJobName(String jobName) {
-        String id = null;
-        for (String key : idWithJobName.keySet()) {
-            if (jobName.equals(idWithJobName.get(key))) {
-                id = key;
-                break;
-            }
-        }
-        idWithJobName.remove(id);
-        jobNameWithParams.remove(jobName);
-        jobNameWithExecuteTime.remove(jobName);
+        String relatedId = jobNameWithRelatedId.get(jobName);
+        relatedIdWithJobData.remove(relatedId);
+        jobNameWithRelatedId.remove(jobName);
     }
 
     @Override
     public String getJobNameByRelatedId(String className, String relatedId) {
-        return idWithJobName.get(relatedId);
+        return relatedIdWithJobData.get(relatedId).getJobName();
     }
 
     @Override
     public Map<String, Object> getJobParamsByJobName(String jobName) {
-        return jobNameWithParams.get(jobName);
+        String relatedId = jobNameWithRelatedId.get(jobName);
+        return relatedIdWithJobData.get(relatedId).getJobParams();
     }
 
     @Override
     public Date getExecuteTime(String jobName) {
-        return jobNameWithExecuteTime.get(jobName);
+        String relatedId = jobNameWithRelatedId.get(jobName);
+        return relatedIdWithJobData.get(relatedId).getExecuteTime();
     }
 
     @Override
     public int getJobSum() {
-        return idWithJobName.size();
+        return relatedIdWithJobData.size();
     }
 }

@@ -63,16 +63,6 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
     }
 
     @Override
-    public void shutdown() {
-        try {
-            getScheduler().shutdown();
-            log.info("Scheduler is shutdown: {}", getScheduler().isShutdown());
-        } catch (SchedulerException e) {
-            log.error("Scheduler shutdown failed, {}", e.getMessage());
-        }
-    }
-
-    @Override
     public void restore() {
         List<JobData> jobDataList = jobManager.getUnExecutedJobs();
         jobDataList.forEach(jobData -> {
@@ -147,30 +137,6 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
             log.info("Add jobDetail successful, {}#{}", jobName, jobGroupName);
         } catch (SchedulerException e) {
             log.error("Add jobDetail failed, {}", e.getMessage());
-        }
-    }
-
-    @Override
-    public <JOB extends Job> void pause(Class<JOB> clazz, String relatedId) {
-        String jobName = jobManager.getJobNameByRelatedId(clazz.getName(), relatedId);
-        JobKey jobKey = new JobKey(jobName, "group:" + clazz.getName());
-        try {
-            getScheduler().pauseJob(jobKey);
-            log.info("Pause jobDetail successful, {}#{}", jobName, "group:" + clazz.getName());
-        } catch (SchedulerException e) {
-            log.error("Pause jobDetail failed, {}", e.getMessage());
-        }
-    }
-
-    @Override
-    public <JOB extends Job> void resume(Class<JOB> clazz, String relatedId) {
-        String jobName = jobManager.getJobNameByRelatedId(clazz.getName(), relatedId);
-        JobKey jobKey = new JobKey(jobName, "group:" + clazz.getName());
-        try {
-            getScheduler().resumeJob(jobKey);
-            log.info("Resume jobDetail successful, {}#{}", jobName, "group:" + clazz.getName());
-        } catch (SchedulerException e) {
-            log.error("Resume jobDetail failed, {}", e.getMessage());
         }
     }
 
