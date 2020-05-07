@@ -1,4 +1,4 @@
-package xyz.liuzhuoming.scheduler.sample.config;
+package xyz.liuzhuoming.simple.scheduler.job;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -9,10 +9,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import xyz.liuzhuoming.scheduler.sample.mapper.JobDataMapper;
-import xyz.liuzhuoming.scheduler.sample.po.JobDataPo;
-import xyz.liuzhuoming.simple.scheduler.job.JobData;
-import xyz.liuzhuoming.simple.scheduler.job.JobManager;
+import xyz.liuzhuoming.simple.scheduler.mapper.JobDataMapper;
+import xyz.liuzhuoming.simple.scheduler.po.JobDataPo;
 
 /**
  * 简单基于mysql的任务管理器实现

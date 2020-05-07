@@ -10,7 +10,7 @@ import java.util.UUID;
 public class DefaultKeyGenerator implements KeyGenerator {
 
     @Override
-    public String generate() {
-        return UUID.randomUUID().toString().replace("-", "");
+    public String nextKey() {
+        return UUID.randomUUID().toString();
     }
 }

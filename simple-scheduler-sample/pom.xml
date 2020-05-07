@@ -44,15 +44,6 @@
       <artifactId>lombok</artifactId>
       <optional>true</optional>
     </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-boot-starter</artifactId>
-      <version>3.2.0</version>
-    </dependency>
   </dependencies>
 
   <build>

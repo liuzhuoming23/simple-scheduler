@@ -8,9 +8,9 @@ package xyz.liuzhuoming.simple.scheduler.key;
 public interface KeyGenerator {
 
     /**
-     * 生成key
+     * 生成下一个key
      *
      * @return key
      */
-    String generate();
+    String nextKey();
 }

@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 /**
- * 任务管理器
+ * 基于内存任务管理器
  *
  * @author liuzhuoming
  */

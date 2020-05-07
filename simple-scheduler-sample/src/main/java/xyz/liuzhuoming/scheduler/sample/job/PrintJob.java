@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
+import org.springframework.stereotype.Component;
 import xyz.liuzhuoming.simple.scheduler.job.BaseJob;
 
 /**

@@ -1,4 +1,4 @@
-package xyz.liuzhuoming.scheduler.sample.po;
+package xyz.liuzhuoming.simple.scheduler.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

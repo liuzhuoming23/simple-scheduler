@@ -27,12 +27,9 @@ public class JobController {
     @PostMapping
     public void add(String relatedId, String executeTime, String username)
         throws ParseException {
-        for (int i = 0; i < 1000; i++) {
-            Map<String, Object> params = new HashMap<>();
-            params.put("username", username + i);
-            quartzTemplate.addJob(PrintJob.class, relatedId + "--" + i, params,
-                new Date(
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime).getTime()));
-        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("username", username);
+        quartzTemplate.addJob(PrintJob.class, relatedId, params,
+            new Date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(executeTime).getTime()));
     }
 }

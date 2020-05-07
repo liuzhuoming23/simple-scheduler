@@ -39,7 +39,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
 
     @Override
     public String generateKey() {
-        return keyGenerator.generate();
+        return keyGenerator.nextKey();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
                     .withIdentity(triggerName, triggerGroupName)
                     .startAt(jobData.getExecuteTime())
                     .build();
-                getScheduler().scheduleJob(jobDetail, trigger);
+                this.getScheduler().scheduleJob(jobDetail, trigger);
                 log.info("Restore jobDetail successful, {}#{}", jobName, jobGroupName);
             } catch (SchedulerException | ClassNotFoundException e) {
                 log.error("Restore jobDetail failed, {}", e.getMessage());

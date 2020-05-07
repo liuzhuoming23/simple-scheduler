@@ -1,7 +1,7 @@
-package xyz.liuzhuoming.scheduler.sample.mapper;
+package xyz.liuzhuoming.simple.scheduler.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import xyz.liuzhuoming.scheduler.sample.po.JobDataPo;
+import xyz.liuzhuoming.simple.scheduler.po.JobDataPo;
 
 /**
  * @author liuzhuoming
