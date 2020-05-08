@@ -21,7 +21,7 @@ import xyz.liuzhuoming.simple.scheduler.scheduler.SchedulerTemplateImpl;
 @EnableConfigurationProperties(SchedulerProperties.class)
 @RequiredArgsConstructor
 @Order(2)
-public class SchedulerAutoConfiguration {
+public class SchedulerConfiguration {
 
     private final SchedulerProperties schedulerProperties;
     private final JobManager jobManager;

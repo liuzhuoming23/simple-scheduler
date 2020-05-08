@@ -17,7 +17,7 @@ import xyz.liuzhuoming.simple.scheduler.util.SpringUtil;
  */
 @Configuration
 @Order(1)
-public class BeanAutoConfiguration {
+public class BeanConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(KeyGenerator.class)

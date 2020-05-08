@@ -3,6 +3,7 @@ package xyz.liuzhuoming.simple.scheduler.scheduler;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
@@ -31,7 +32,7 @@ import xyz.liuzhuoming.simple.scheduler.prop.SchedulerProperties;
 @Setter
 public class SchedulerTemplateImpl implements SchedulerTemplate {
 
-    private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+    private SchedulerFactory schedulerFactory;
 
     private SchedulerProperties schedulerProperties;
     private JobManager jobManager;
@@ -45,7 +46,14 @@ public class SchedulerTemplateImpl implements SchedulerTemplate {
     @Override
     public Scheduler getScheduler() {
         try {
-            //不自定义调度器名称的话quartz默认返回同一个调度器
+            StdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();
+            Properties props = new Properties();
+            //自定义调度器名称以返回同一个调度器
+            props.put("org.quartz.scheduler.instanceName",
+                "Simple-Scheduler-2020.05.08-liuzhuoming");
+            props.put("org.quartz.threadPool.threadCount", "10");
+            stdSchedulerFactory.initialize(props);
+            schedulerFactory = stdSchedulerFactory;
             return schedulerFactory.getScheduler();
         } catch (SchedulerException e) {
             log.error("Init scheduler failed, {}", e.getMessage());

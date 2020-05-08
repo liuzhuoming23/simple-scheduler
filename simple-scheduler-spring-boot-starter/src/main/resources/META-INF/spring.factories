@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  xyz.liuzhuoming.simple.scheduler.conf.SchedulerAutoConfiguration,\
-  xyz.liuzhuoming.simple.scheduler.conf.BeanAutoConfiguration,\
+  xyz.liuzhuoming.simple.scheduler.conf.SchedulerConfiguration,\
+  xyz.liuzhuoming.simple.scheduler.conf.BeanConfiguration,\
   xyz.liuzhuoming.simple.scheduler.conf.SchedulerConfig,\
   xyz.liuzhuoming.simple.scheduler.conf.MybatisConfig
