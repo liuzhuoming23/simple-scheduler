@@ -29,8 +29,6 @@ public class BeanConfig {
      * 选择jdbc任务管理器
      */
     @Bean
-    @ConditionalOnMissingBean(JobManager.class)
-    @Order(1)
     public JobManager jobManager() {
         return new JdbcJobManager(jobDataMapper);
     }
